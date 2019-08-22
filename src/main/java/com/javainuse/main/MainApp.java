@@ -11,7 +11,9 @@ public class MainApp {
         System.out.println("Application context started");
         try {
             // Thread.sleep(5 * 60 * 1000);
-            Thread.sleep(3000);
+            System.out.println("Wating 5s...");
+            Thread.sleep(5000);
+            System.out.println("Done Wating. Exiting.");
         }
         catch (InterruptedException e) {
             e.printStackTrace();
