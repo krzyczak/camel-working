@@ -28,26 +28,12 @@ import java.util.*;
 
 public class SimpleRouteBuilderTest<test> extends CamelSpringTestSupport {
 
-    public SimpleRouteBuilderTest() throws Exception {}
+//    public SimpleRouteBuilderTest() throws Exception {}
 
     @Override
     protected AbstractApplicationContext createApplicationContext() {
         return new ClassPathXmlApplicationContext("applicationContext-camel.xml");
     }
-
-    private String tokenResponse = "<html>\n" +
-            "<head>\n" +
-            " <title>Upload Processed Training Set Data</title>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            " <p>Please upload Processed Training Set Data</p>\n" +
-            " <form id=“uploadform” enctype=“multipart/form-data” action=“/up/ts” method=“post”>\n" +
-            "   <input type=“file” name=“test_file” />\n" +
-            "   <input type=“hidden” id=“token” name=“token” value=“{9dd5a30ce06665ba52b29586501e4479}“/>\n" +
-            "   <input type=“submit” value=“upload” />\n" +
-            " </form>\n" +
-            "</body>\n" +
-            "</html>";
 
     private MockEndpoint mockOut;
 
@@ -57,36 +43,16 @@ public class SimpleRouteBuilderTest<test> extends CamelSpringTestSupport {
 
         context.addRoutes(new RouteBuilder() {
             public void configure() {
-                // from("seda:getToken").transform(constant(tokenResponse));
-                // from("seda:redact").transform(constant("redact"));
-                // from("seda:abbreviations").transform(constant("abbreviation"));
-                // from("seda:spelling").transform(constant("spelling"));
-                // from("seda:saveMessage")
-                //         .bean(MultipartParser.class, "parse")
-                //         .to(mockOut);
-                from("seda:saveMessage").to(mockOut);
+                from("direct:ingest").to(mockOut);
             }
         });
 
-        // requestEntity = setUpMultipartForm();
-        // template.sendBody("direct:ingest", requestEntity.getContent());
-         template.sendBody("direct:ingest", "requestEntity.getContent()");
+         template.sendBody("direct:ingest", "hello janusz");
     }
 
     @Test
     public void shouldFilterEpisodeCounter() throws Exception {
-        Thread.sleep(1000);
-//        mockOut.expects(new Runnable() {
-//            public void run() {
-//                String expectedResponse="1";
-//                List response = getResponseAsList((String) mockOut.getExchanges().get(0).getIn().getBody());
-//                for (int i = 0; i < response.size(); i++) {
-//                    HashMap hashMap = (HashMap) response.get(i);
-//                    String trueValueEpisodeCounter = (String) hashMap.get("episode_counter");
-//                    assertEquals(expectedResponse, trueValueEpisodeCounter);
-//                }
-//            }
-//        });
+        Thread.sleep(2000);
         mockOut.expectedBodiesReceived("some text");
         mockOut.assertIsSatisfied();
     }

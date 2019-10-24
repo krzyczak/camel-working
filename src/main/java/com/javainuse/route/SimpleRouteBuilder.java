@@ -15,9 +15,9 @@ import com.javainuse.route.MyBean;
 public class SimpleRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-      from("direct:ingest")
-              .bean(MyBean.class, "hello")
-              .log("${body}")
-              .to("seda:saveMessage");
+//      from("direct:ingest")
+////              .bean(MyBean.class, "hello")
+//              .log("${body}")
+//              .to("seda:saveMessage");
     }
 }
